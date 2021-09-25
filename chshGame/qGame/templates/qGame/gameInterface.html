@@ -6,6 +6,7 @@
     <script src="{% static 'qGame/LaTeXMathML.js' %}" ></script> 
     <script src="{% static 'qGame/jQuery.js' %}"></script>
     <script src="{% static 'qGame/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'qGame/chart.js' %}"></script>
 
     <link href="{% static 'qGame/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
 </head>
@@ -43,12 +44,47 @@ probability update <h5 id='probUpdate'></h5>
 
 <button id="sendParameter" type="button">Send a bit</button>
 
+<canvas id="myChart" width="400" height="400"></canvas>
 <script>
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [0],
+        datasets: [{
+            label: '# of Votes',
+            data: [0],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            },
+        },
+        maintainAspectRatio: false,
+        responsive: false 
+        
+    }
+});
+
+function addData(chart, label, data) {
+    chart.data.labels.push(label);
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.push(data);
+    });
+    chart.update();
+}
+
+var n = 1
 $("#sendParameter").click(function(){
     $.ajax({
         data: {"t_0": $("#t_0").val() , "t_1": $("#t_1").val(), "phi_0": $("#phi_0").val(), "phi_1":$("#phi_1").val() },
         success: function(response){
             $("#probUpdate").html(response['prob'])
+            addData(myChart, n, response['prob']);
+            n += 1; 
         }
         })
 })
