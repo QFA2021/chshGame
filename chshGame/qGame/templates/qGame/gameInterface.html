@@ -2,13 +2,59 @@
 <html>
 <head>
 <title>Page Title</title>
+{% load static %}
+    <script src="{% static 'qGame/LaTeXMathML.js' %}" ></script> 
+    <script src="{% static 'qGame/jQuery.js' %}"></script>
+    <script src="{% static 'qGame/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <link href="{% static 'qGame/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
 </head>
 <body>
+    
+</head>
+<body>
+    
+    
 
-<center>
+
 CHSH GAME 
 
-</center>
 
+    <div class='card'style="width: 18rem;" >
+        <div class='card-body'>
+            $\theta_{x=0}$ <input type="text" id="t_0" name="fname"><br>
+            $\theta_{x=1}$ <input type="text" id="t_1" name="lname">
+        </div>
+    </div>
+
+    <div class='card' style="width: 18rem;">
+        <div class='card-body'>
+            $\phi_{x=0}$ <input type="text" id="phi_0" name="fname"><br>
+            $\phi_{x=1}$ <input type="text" id="phi_1" name="lname">
+        </div>
+    </div>
+
+
+probability update <h5 id='probUpdate'></h5>
+
+
+<!-- $\lim_{x\to\infty} f(x) = k \choose r + \frac ab \sum_{n=1}^\infty a_n + 
+\displaystyle{ \left\{ \frac{1}{13} \sum_{n=1}^\infty b_n \right\} }.\$ --> 
+
+<button id="sendParameter" type="button">Send a bit</button>
+
+<script>
+$("#sendParameter").click(function(){
+    $.ajax({
+        data: {"t_0": $("#t_0").val() , "t_1": $("#t_1").val(), "phi_0": $("#phi_0").val(), "phi_1":$("#phi_1").val() },
+        success: function(response){
+            $("#probUpdate").html(response['prob'])
+        }
+        })
+})
+
+</script>
 </body>
+
+
 </html>
