@@ -3,12 +3,56 @@
 <head>
 <title>Page Title</title>
 {% load static %}
-    <script src="{% static 'qGame/LaTeXMathML.js' %}" ></script> 
-    <script src="{% static 'qGame/jQuery.js' %}"></script>
-    <script src="{% static 'qGame/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'qGame/chart.js' %}"></script>
 
-    <link href="{% static 'qGame/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+<script src="{% static 'qGame/jQuery.js' %}"></script>
+<script src="{% static 'qGame/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'qGame/chart.js' %}"></script>
+<script src="{% static 'qGame/LaTeXMathML.js' %}" ></script> 
+<script src="https://fred-wang.github.io/mathml.css/mspace.js"></script>
+<script src="https://fred-wang.github.io/mathjax.js/mpadded-min.js"></script>
+
+<link href="{% static 'qGame/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+<link href="{% static 'qGame/styles.css' %}" rel = "stylesheet">
+    <style>
+        body {
+          background-color: rgb(255, 255, 255);
+        }
+        
+        h1 {
+          color: maroon;
+          margin-left: 40px;
+        } 
+
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            border: 2px solid black;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+
+        .card-body:hover{
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); 
+        }
+
+        .container {
+            padding: 2px 16px;
+        }
+
+        .parameter {
+            font-weight: bold; 
+            font-size: 150%
+        }
+
+        .simulationButton{
+           height: 100px;
+           width: 100px;
+           border-radius: 100%
+        }
+        </style>
+
 </head>
 <body>
     
@@ -19,21 +63,70 @@
 
 
 CHSH GAME 
+$| \Psi \rangle = \frac{|00\rangle + |11\rangle}{\sqrt{2}}$
+<math>
+    <msqrt>
+      <mn>2</mn>
+    </msqrt>
+  </math>
+<canvas id="myChart" width="800" height="200" style="margin: 0 auto"></canvas>
 
+<!-- Here the two Arrows are drawn -->
+<svg height="400" width="100%" style="position: absolute; z-index: -10">
+    <symbol id="myPath" viewBox="0 0 100 100">
+        <path id="lineCA" d="m -1 10 l 150 50" stroke="black" stroke-width="2" fill="none" />
+        <path id="lineCB" d="m 1 10 l -150 50" stroke="black" stroke-width="2" fill="none" />
+    </symbol>
+    <use xlink:href="#myPath" transform="translate(525, 50) scale(0.5)" />
+</svg>
 
-    <div class='card'style="width: 18rem;" >
-        <div class='card-body'>
-            $\theta_{x=0}$ <input type="text" id="t_0" name="fname"><br>
-            $\theta_{x=1}$ <input type="text" id="t_1" name="lname">
-        </div>
+<!-- The boxes with the Alien, Alice and Bob are shwon -->
+<div class='card' style="margin: auto; width: 10%; height: 10%; margin-bottom: 6.5%" >
+    <div class='card-body'>
+        👽
     </div>
+</div>
 
-    <div class='card' style="width: 18rem;">
-        <div class='card-body'>
-            $\phi_{x=0}$ <input type="text" id="phi_0" name="fname"><br>
-            $\phi_{x=1}$ <input type="text" id="phi_1" name="lname">
+
+<div class="container-fluid" style="margin: 0 auto ;">
+    <div class="row">
+        <div class='card' style="margin: 0 ; margin-left:auto; width: 20%" >
+            <div class='card-body'>
+                <h4 class="card-title" style="font-style: italic;">Alice</h4>
+                $\theta_{(x=0)}=$ <label id='t_0_descr' class="parameter">0</label><input type="range" min="-1" max="1" step="0.0625" id="t_0" value="0" onchange="getInTermsOfPi(this.id, this.value)" ><br>
+                $\theta_{(x=1)}=$ <label id='t_1_descr' class="parameter">0</label> <input type="range" min="-1" max="1" step="0.0625" id="t_1" value="0" onchange="getInTermsOfPi(this.id, this.value)" >
+            </div>
         </div>
-    </div>
+        
+        <div class='card'  style="margin-left: 20% ; width: 20%; border:0; box-shadow: 0 0 0 ; margin-left: 0%">
+            <br><br>
+             <a style="margin-left: auto; margin-right:auto"> $| \Psi \rangle = \frac{|00\rangle + |11\rangle}{\sqrt{2}}$ </a>
+            <div class="holder" style="width: 100%">
+            
+                <div class="ellipse"></div>
+                <div class="ellipse ellipse2"></div>
+            </div>
+        </div>  
+       
+        <div class='card' style="margin: 0; margin-right:auto; width: 20%">
+            <div class='card-body'>
+                <h4 class="card-title" style="font-style: italic;">Bob</h4>
+                $\phi_{(x=0)}=$ <label id='phi_0_descr' class="parameter">0</label><input type="range" min="-1" max="1" step="0.0625" id="phi_0" value="0" onchange="getInTermsOfPi(this.id, this.value)" ><br>
+                $\phi_{(x=1)}=$ <label id='phi_1_descr' class="parameter">0</label> <input type="range" min="-1" max="1" step="0.0625" id="phi_1" value="0" onchange="getInTermsOfPi(this.id, this.value)" >
+            </div>
+            <!-- <img class="" style="background-color: rgb(243, 243, 243);" src="{% static 'qGame/images/measurement.png' %}"  alt="∡"> --> 
+        </div>
+    </div>  
+</div>
+
+<svg height="400" width="100%" style="position: absolute; z-index: -10; border: 0px solid black ">
+    <symbol id="mySecondPath" viewBox="0 0 100 100">
+        <path id="lineCA" d="m 25 50 L -125 0 " stroke="black" stroke-width="2" fill="none" />
+        <path id="lineCB" d="m 25 50 L 175 0 " stroke="black" stroke-width="2" fill="none" />
+    </symbol>
+    <use xlink:href="#mySecondPath" transform="translate(475, 2) scale(0.5)" />
+</svg>
+
 
 
 probability update <h5 id='probUpdate'></h5>
@@ -42,9 +135,13 @@ probability update <h5 id='probUpdate'></h5>
 <!-- $\lim_{x\to\infty} f(x) = k \choose r + \frac ab \sum_{n=1}^\infty a_n + 
 \displaystyle{ \left\{ \frac{1}{13} \sum_{n=1}^\infty b_n \right\} }.\$ --> 
 
-<button id="sendParameter" type="button">Send a bit</button>
+<button id="sendParameter" type="button">Start Simulation</button>
 
-<canvas id="myChart" width="400" height="400"></canvas>
+<p id="log"></p>
+
+</div>
+ 
+
 <script>
 var ctx = document.getElementById('myChart').getContext('2d');
 var myChart = new Chart(ctx, {
@@ -52,15 +149,18 @@ var myChart = new Chart(ctx, {
     data: {
         labels: [0],
         datasets: [{
-            label: '# of Votes',
+            label: 'Current Winning Probability',
             data: [0],
-            borderWidth: 1
+            borderWidth: 2,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1
         }]
     },
     options: {
         scales: {
             y: {
-                beginAtZero: true
+                beginAtZero: true,
+                max: 1
             },
         },
         maintainAspectRatio: false,
@@ -69,7 +169,7 @@ var myChart = new Chart(ctx, {
     }
 });
 
-function addData(chart, label, data) {
+async function addData(chart, label, data) {
     chart.data.labels.push(label);
     chart.data.datasets.forEach((dataset) => {
         dataset.data.push(data);
@@ -78,16 +178,59 @@ function addData(chart, label, data) {
 }
 
 var n = 1
-$("#sendParameter").click(function(){
+
+function getProbabilities() {
     $.ajax({
         data: {"t_0": $("#t_0").val() , "t_1": $("#t_1").val(), "phi_0": $("#phi_0").val(), "phi_1":$("#phi_1").val() },
+        async: false, 
         success: function(response){
             $("#probUpdate").html(response['prob'])
             addData(myChart, n, response['prob']);
             n += 1; 
-        }
+            }
         })
+}
+
+
+$("#sendParameter").click(function(){
+    for(i=0; i<5; i++){
+        getProbabilities()
+        wait(5000)
+    }
+    
 })
+
+$(document).keyup(function(event) {
+    if (event.which === 13) {
+       $("#sendParameter").click()
+    }
+});
+
+function gcd(a, b) {
+  if (b < 0.0000001) return a;                // Since there is a limited precision we need to limit the value.
+
+  return gcd(b, Math.floor(a % b));           // Discard any fractions due to limitations in precision.
+};
+
+
+function getInTermsOfPi(targetDiv, d){
+    
+    len = d.toString().length - 2
+    sign = Math.sign(d)
+    d *= sign
+    denominator = Math.pow(10, len);
+    numerator = d * denominator;
+
+    divisor = gcd(numerator, denominator);    
+    numerator /= sign*divisor;                     
+    denominator /= divisor;                       
+
+    $("#"+targetDiv+"_descr").html(Math.floor(numerator) + '/' + Math.floor(denominator)+ "&pi;")
+}
+
+function wait(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+ }
 
 </script>
 </body>

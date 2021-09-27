@@ -58,7 +58,7 @@ var alertIfNoMathML = false;  // show alert box if no MathML capability
 // was "red":
 var mathcolor = "";	     // change it to "" (to inherit) or any other color
 // was "serif":
-var mathfontfamily = "";      // change to "" to inherit (works in IE)
+var mathfontfamily = "arial";      // change to "" to inherit (works in IE)
                               // or another family (e.g. "arial")
 var showasciiformulaonhover = true; // helps students learn ASCIIMath
 /*

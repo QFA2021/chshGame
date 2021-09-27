@@ -2,6 +2,8 @@
 <html>
 <head>
 <title>Page Title</title>
+{% load static %}
+<script src="{% static 'qGame/LaTeXMathML.js' %}" ></script> 
 </head>
 <body>
 
@@ -11,6 +13,9 @@
 
 <a href="{% url 'gameInterface' %}">Go to Game</a>
 </center>
+
+CHSH GAME 
+$| \Psi \rangle = \frac{|00\rangle + |11\rangle}{\sqrt{2}}$
 
 </body>
 </html>
