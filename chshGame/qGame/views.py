@@ -13,7 +13,7 @@ def gameInterface(request):
     if request.is_ajax():
         testBit = request.GET.get('t_0', None)
         parameters = request.GET #in the order of t_0, t_1, phi_0, phi_1
-        angles = [float(parameters[key]) for key in parameters ]
+        angles = [np.pi * float(parameters[key]) for key in parameters ]
         prob = chsh.calculateProb(100, *angles)
         print(prob)
         dict = {'prob':prob}

@@ -106,8 +106,9 @@ input[type=range]::-ms-thumb {
   cursor: pointer;
 }
 input[type=range]:focus::-ms-fill-lower {
-  background: #3071A9;
+  background: #a93030;
 }
 input[type=range]:focus::-ms-fill-upper {
-  background: #3071A9;
+  background: #a93030;
 }
+

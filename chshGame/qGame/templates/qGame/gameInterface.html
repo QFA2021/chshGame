@@ -51,6 +51,89 @@
            width: 100px;
            border-radius: 100%
         }
+
+        #myProgress {
+        width: 100%;
+        background-image: white;
+        border-radius: 10;
+        }
+
+        #myBar {
+        width: 1%;
+        height: 30px;
+        background-image: linear-gradient(to right, #ff0000, #0400ff, green);
+        
+        }
+
+                /* Circular Progress bar */
+        .circular{
+        height:1000px;
+        width: 1000px;
+        position: absolute;
+        transform:scale(2);
+        }
+
+        .circular .inner{
+        position: absolute;
+        z-index: 6;
+        top: 50%;
+        left: 50%;
+        height: 800px;
+        width: 800px;
+        margin: -400px 0 0 -400px;
+        background: #ffffff;
+        border-radius: 100%;
+        }
+        .circular .number{
+        position: absolute;
+        top:50%;
+        left:50%;
+        transform: translate(-50%, -50%);
+        z-index:10;
+        font-size:18px;
+        font-weight:500;
+        color:#000000;
+        }
+        .circular .bar{
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background: rgb(255, 255, 255);
+        -webkit-border-radius: 100%;
+        clip: rect(0px, 1000px, 1000px, 500px);
+        }
+        .circle .bar .progress{
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        -webkit-border-radius: 100%;
+        clip: rect(0px, 500px, 1000px, 0px);
+        background: #005194;
+        }
+        .circle .left .progress{
+        z-index:1;
+        animation: left 1.5s linear both;
+        }
+        @keyframes left{
+        100%{
+            transform: rotate(180deg);
+        }
+        }
+        .circle .right {
+        transform: rotate(180deg);
+        z-index:3;
+        
+        }
+        .circle .right .progress{
+        animation: right 1.5s linear both;
+        animation-delay:1.5s;
+        }
+        @keyframes right{
+        100%{
+            transform: rotate(180deg);
+        }
+        }
+                
         </style>
 
 </head>
@@ -64,15 +147,11 @@
 
 CHSH GAME 
 $| \Psi \rangle = \frac{|00\rangle + |11\rangle}{\sqrt{2}}$
-<math>
-    <msqrt>
-      <mn>2</mn>
-    </msqrt>
-  </math>
-<canvas id="myChart" width="800" height="200" style="margin: 0 auto"></canvas>
+
+<canvas id="myChart" width="800" height="200" style="margin: 0 auto; z-index: 200; background-color: white;"></canvas>
 
 <!-- Here the two Arrows are drawn -->
-<svg height="400" width="100%" style="position: absolute; z-index: -10">
+<svg height="400" width="100%" style="position: absolute; z-index: -2">
     <symbol id="myPath" viewBox="0 0 100 100">
         <path id="lineCA" d="m -1 10 l 150 50" stroke="black" stroke-width="2" fill="none" />
         <path id="lineCB" d="m 1 10 l -150 50" stroke="black" stroke-width="2" fill="none" />
@@ -93,8 +172,8 @@ $| \Psi \rangle = \frac{|00\rangle + |11\rangle}{\sqrt{2}}$
         <div class='card' style="margin: 0 ; margin-left:auto; width: 20%" >
             <div class='card-body'>
                 <h4 class="card-title" style="font-style: italic;">Alice</h4>
-                $\theta_{(x=0)}=$ <label id='t_0_descr' class="parameter">0</label><input type="range" min="-1" max="1" step="0.0625" id="t_0" value="0" onchange="getInTermsOfPi(this.id, this.value)" ><br>
-                $\theta_{(x=1)}=$ <label id='t_1_descr' class="parameter">0</label> <input type="range" min="-1" max="1" step="0.0625" id="t_1" value="0" onchange="getInTermsOfPi(this.id, this.value)" >
+                $\theta_{(x=0)}=$ <label id='t_0_descr' class="parameter">0</label><input type="range" min="-1" max="1" step="0.0625" id="t_0" value="0" oninput="getInTermsOfPi(this.id, this.value)" ><br>
+                $\theta_{(x=1)}=$ <label id='t_1_descr' class="parameter">0</label> <input type="range" min="-1" max="1" step="0.0625" id="t_1" value="0" oninput="getInTermsOfPi(this.id, this.value)" >
             </div>
         </div>
         
@@ -111,15 +190,22 @@ $| \Psi \rangle = \frac{|00\rangle + |11\rangle}{\sqrt{2}}$
         <div class='card' style="margin: 0; margin-right:auto; width: 20%">
             <div class='card-body'>
                 <h4 class="card-title" style="font-style: italic;">Bob</h4>
-                $\phi_{(x=0)}=$ <label id='phi_0_descr' class="parameter">0</label><input type="range" min="-1" max="1" step="0.0625" id="phi_0" value="0" onchange="getInTermsOfPi(this.id, this.value)" ><br>
-                $\phi_{(x=1)}=$ <label id='phi_1_descr' class="parameter">0</label> <input type="range" min="-1" max="1" step="0.0625" id="phi_1" value="0" onchange="getInTermsOfPi(this.id, this.value)" >
+                $\phi_{(x=0)}=$ <label id='phi_0_descr' class="parameter">0</label><input type="range" min="-1" max="1" step="0.0625" id="phi_0" value="0" oninput="getInTermsOfPi(this.id, this.value)" ><br>
+                $\phi_{(x=1)}=$ <label id='phi_1_descr' class="parameter">0</label> <input type="range" min="-1" max="1" step="0.0625" id="phi_1" value="0" oninput="getInTermsOfPi(this.id, this.value)" >
             </div>
             <!-- <img class="" style="background-color: rgb(243, 243, 243);" src="{% static 'qGame/images/measurement.png' %}"  alt="∡"> --> 
         </div>
     </div>  
 </div>
 
-<svg height="400" width="100%" style="position: absolute; z-index: -10; border: 0px solid black ">
+<div class='card' style="margin: auto;top:86%;  left:45%; width: 10.25%; margin-bottom: 6.5%; position: absolute;" >
+    <div class='card-body'>
+        $x\cdot y = a \bigoplus b \quad ? $
+    </div>
+</div>
+
+<!-- Second paths -->
+<svg height="400" width="100%" style="position: absolute; z-index: -1; border: 0px solid black ">
     <symbol id="mySecondPath" viewBox="0 0 100 100">
         <path id="lineCA" d="m 25 50 L -125 0 " stroke="black" stroke-width="2" fill="none" />
         <path id="lineCB" d="m 25 50 L 175 0 " stroke="black" stroke-width="2" fill="none" />
@@ -130,17 +216,34 @@ $| \Psi \rangle = \frac{|00\rangle + |11\rangle}{\sqrt{2}}$
 
 
 probability update <h5 id='probUpdate'></h5>
+<br><br><br>
+<!-- <div id="myProgress" style="width: 50%; margin:auto">
+    <div id="myBar" ></div>
+</div> --> 
 
 
 <!-- $\lim_{x\to\infty} f(x) = k \choose r + \frac ab \sum_{n=1}^\infty a_n + 
 \displaystyle{ \left\{ \frac{1}{13} \sum_{n=1}^\infty b_n \right\} }.\$ --> 
 
-<button id="sendParameter" type="button">Start Simulation</button>
+<button id="sendParameter" type="button" class="btn btn-outline-success" style="z-index:10; width: 10%">Start Simulation</button>
 
 <p id="log"></p>
 
 </div>
- 
+
+<div class="circular" style="cursor: pointer; z-index: -10; transform: scale(0.9); bottom:100px; top:8% ;left:20%; right:50%" onclick="circularProgress()" >
+    <div class="inner"></div>
+    <div class="number">Start</div>
+    <div class="circle">
+      <div class="bar left">
+        <div class="progressPrelim"></div>
+      </div>
+      <div class="bar right">
+        <div class="progressPrelim"></div>
+      </div>
+    </div>
+  </div>
+
 
 <script>
 var ctx = document.getElementById('myChart').getContext('2d');
@@ -150,9 +253,11 @@ var myChart = new Chart(ctx, {
         labels: [0],
         datasets: [{
             label: 'Current Winning Probability',
+            fill: true,
             data: [0],
             borderWidth: 2,
-            borderColor: 'rgb(75, 192, 192)',
+            borderColor: 'rgb(0, 200, 0)',
+            backgroundColor: "rgba(25, 10, 103, 0.1)",
             tension: 0.1
         }]
     },
@@ -182,21 +287,24 @@ var n = 1
 function getProbabilities() {
     $.ajax({
         data: {"t_0": $("#t_0").val() , "t_1": $("#t_1").val(), "phi_0": $("#phi_0").val(), "phi_1":$("#phi_1").val() },
-        async: false, 
+        async: true, 
         success: function(response){
             $("#probUpdate").html(response['prob'])
             addData(myChart, n, response['prob']);
             n += 1; 
+            $("#sendParameter").html("Start Simulation")
+            $("#sendParameter").removeClass("btn-danger")
+            $("#sendParameter").addClass("btn-outline-success")
             }
         })
 }
 
 
 $("#sendParameter").click(function(){
-    for(i=0; i<5; i++){
-        getProbabilities()
-        wait(5000)
-    }
+    $(".circular").click()
+    $("#sendParameter").html("Loading ... ")
+    $("#sendParameter").removeClass("btn-outline-success")
+    $("#sendParameter").addClass("btn btn-danger")
     
 })
 
@@ -208,7 +316,6 @@ $(document).keyup(function(event) {
 
 function gcd(a, b) {
   if (b < 0.0000001) return a;                // Since there is a limited precision we need to limit the value.
-
   return gcd(b, Math.floor(a % b));           // Discard any fractions due to limitations in precision.
 };
 
@@ -232,6 +339,44 @@ function wait(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
  }
 
+ //Logic for Progress Bar 
+var i = 0;
+
+function move() {
+    var elem = document.getElementById("myBar"); 
+    var width = 10;
+    var id = setInterval(frame, 25);
+    function frame() {
+        if (width >= 100) {
+            clearInterval(id);
+        } else {
+            width++; 
+            elem.style.width = width + '%'; 
+            
+        }
+    }
+}
+
+function circularProgress(){
+    getProbabilities()
+    $(".inner").css("background-color", "white")
+    counter = 0 
+    $(".progressPrelim").removeClass("progress")
+    progress = setInterval( function() {
+        $(".progressPrelim").addClass("progress")
+        if(counter >= 100 ){
+            $(".inner").css("background-color", "#ffffff")
+            $(".number").html("Start")
+            clearInterval(progress);
+        }else{
+            counter+=1;
+            $(".number").html(counter + "%")
+        }
+        }, 30);
+    
+}
+
+ 
 </script>
 </body>
 
