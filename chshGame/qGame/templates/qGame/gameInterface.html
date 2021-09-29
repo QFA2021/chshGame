@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=6000px">
 <title>Page Title</title>
 {% load static %}
 
@@ -16,10 +17,11 @@
     <style>
         body {
           background-color: rgb(255, 255, 255);
+         
         }
         
         h1 {
-          color: maroon;
+          color: rgb(0, 0, 0);
           margin-left: 40px;
         } 
 
@@ -98,7 +100,7 @@
         position: absolute;
         height: 100%;
         width: 100%;
-        background: rgb(255, 255, 255);
+        background: rgb(255, 35, 35);
         -webkit-border-radius: 100%;
         clip: rect(0px, 1000px, 1000px, 500px);
         }
@@ -108,7 +110,7 @@
         width: 100%;
         -webkit-border-radius: 100%;
         clip: rect(0px, 500px, 1000px, 0px);
-        background: #005194;
+        background: #0fa7ff;
         }
         .circle .left .progress{
         z-index:1;
@@ -133,6 +135,42 @@
             transform: rotate(180deg);
         }
         }
+
+        .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+        }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 17px;
+        }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+        background-color: #ddd;
+        }
+
+        /* Create an active/current tablink class */
+        .tab button.active {
+        background-color: #ccc;
+        }
+
+        /* Style the tab content */
+        .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+        }
                 
         </style>
 
@@ -145,10 +183,22 @@
     
 
 
-CHSH GAME 
-$| \Psi \rangle = \frac{|00\rangle + |11\rangle}{\sqrt{2}}$
+ 
+
 
 <canvas id="myChart" width="800" height="200" style="margin: 0 auto; z-index: 200; background-color: white;"></canvas>
+
+<div style=" position:absolute; top: 5%; left:0%">
+    <h1 id="" style="font-size: 70px">CHSH Game</h1>
+</div>
+
+<div style=" position:absolute; top: 5%; left:80%; ;">
+ <h1 id="probUpdate" style="font-size: 70px">0</h1> Simulation (N=100)
+</div>
+
+<div style="position: relative; opacity:0">
+    . <h1 ></h1>
+</div>
 
 <!-- Here the two Arrows are drawn -->
 <svg height="400" width="100%" style="position: absolute; z-index: -2">
@@ -159,10 +209,13 @@ $| \Psi \rangle = \frac{|00\rangle + |11\rangle}{\sqrt{2}}$
     <use xlink:href="#myPath" transform="translate(525, 50) scale(0.5)" />
 </svg>
 
+<div style="position:absolute; margin-left:auto; margin-right:auto; left:39%; top:38%; z-index:10">
+    $x \qquad \qquad \qquad  \qquad$ $\qquad \qquad \qquad \qquad y$
+</div>
 <!-- The boxes with the Alien, Alice and Bob are shwon -->
 <div class='card' style="margin: auto; width: 10%; height: 10%; margin-bottom: 6.5%" >
     <div class='card-body'>
-        👽
+        👽 $x,y \in \{0,1 \} $
     </div>
 </div>
 
@@ -185,17 +238,23 @@ $| \Psi \rangle = \frac{|00\rangle + |11\rangle}{\sqrt{2}}$
                 <div class="ellipse"></div>
                 <div class="ellipse ellipse2"></div>
             </div>
+
+            <button id="sendParameter" type="button" class="btn btn-outline-dark" style="z-index:10; margin-left:auto; margin-right:auto; width: 80%; height:20%">Start Simulation</button>
         </div>  
        
         <div class='card' style="margin: 0; margin-right:auto; width: 20%">
             <div class='card-body'>
                 <h4 class="card-title" style="font-style: italic;">Bob</h4>
-                $\phi_{(x=0)}=$ <label id='phi_0_descr' class="parameter">0</label><input type="range" min="-1" max="1" step="0.0625" id="phi_0" value="0" oninput="getInTermsOfPi(this.id, this.value)" ><br>
-                $\phi_{(x=1)}=$ <label id='phi_1_descr' class="parameter">0</label> <input type="range" min="-1" max="1" step="0.0625" id="phi_1" value="0" oninput="getInTermsOfPi(this.id, this.value)" >
+                $\phi_{(y=0)}=$ <label id='phi_0_descr' class="parameter">0</label><input type="range" min="-1" max="1" step="0.0625" id="phi_0" value="0" oninput="getInTermsOfPi(this.id, this.value)" ><br>
+                $\phi_{(y=1)}=$ <label id='phi_1_descr' class="parameter">0</label> <input type="range" min="-1" max="1" step="0.0625" id="phi_1" value="0" oninput="getInTermsOfPi(this.id, this.value)" >
             </div>
             <!-- <img class="" style="background-color: rgb(243, 243, 243);" src="{% static 'qGame/images/measurement.png' %}"  alt="∡"> --> 
         </div>
     </div>  
+</div>
+
+<div style="position:absolute; margin-left:auto; margin-right:auto; left:39%; top:82%; z-index:10">
+    $a \qquad \qquad \qquad \qquad  $ $\qquad  \qquad \qquad \qquad b$
 </div>
 
 <div class='card' style="margin: auto;top:86%;  left:45%; width: 10.25%; margin-bottom: 6.5%; position: absolute;" >
@@ -215,7 +274,7 @@ $| \Psi \rangle = \frac{|00\rangle + |11\rangle}{\sqrt{2}}$
 
 
 
-probability update <h5 id='probUpdate'></h5>
+
 <br><br><br>
 <!-- <div id="myProgress" style="width: 50%; margin:auto">
     <div id="myBar" ></div>
@@ -225,7 +284,7 @@ probability update <h5 id='probUpdate'></h5>
 <!-- $\lim_{x\to\infty} f(x) = k \choose r + \frac ab \sum_{n=1}^\infty a_n + 
 \displaystyle{ \left\{ \frac{1}{13} \sum_{n=1}^\infty b_n \right\} }.\$ --> 
 
-<button id="sendParameter" type="button" class="btn btn-outline-success" style="z-index:10; width: 10%">Start Simulation</button>
+
 
 <p id="log"></p>
 
@@ -244,7 +303,55 @@ probability update <h5 id='probUpdate'></h5>
     </div>
   </div>
 
+  <div style="margin-bottom:300px"></div>
 
+  <!-- Here the Info Box for explanation comes in -->
+<div style="margin-left:auto; margin-right: auto; width: 50%">
+  <div class="tab">
+    <button class="tablinks" onclick="openCity(event, 'London')">About QuNetSim</button>
+    <button class="tablinks" onclick="openCity(event, 'Paris')">Classical Strategy</button>
+    <button class="tablinks" onclick="openCity(event, 'Tokyo')">Quantum Strategy</button>
+  </div>
+  
+  <div id="London" class="tabcontent">
+    <h3>QuNetSim</h3>
+    <p>\subsubsection*{QuNetSim}
+        Each time you press the "Start simulation" button, the simulation of this quantum network including all operations and measurements is run using QuNetSim.\\
+        QuNetSim is a Python software framework developed by researchers at Technical University of Munich that can be used to simulate quantum networks. 
+        The goal of QuNetSim is to make it easier to investigate and test quantum networking protocols over various quantum network configurations and parameters. \\
+        Learn more about QuNetSim here: 
+        \url{https://arxiv.org/abs/2003.06397}</p>
+  </div>
+  
+  <div id="Paris" class="tabcontent">
+    <h3>Best Classical Strategy</h3>
+    <p>The classical strategy with highest winning probability is given by Alice and Bob setting $(a,b)= (0,0)$ independent of the input $(x,y)$. Doing this, they reach a winning probability of $75\%$.
+        $\begin{align*}
+            P(\text{win}) = P(a=0, b=0,x=0, y=0)+ P(a=0, b=0,x=1, y=0) +P(a=0, b=0,x=0, y=1) = 1/4 + 1/4 + 1/4 = 3/4 
+        \end{align*}$</p> 
+  </div>
+  
+  <div id="Tokyo" class="tabcontent">
+    <h3>Calculations for the quantum winning probability</h3>
+    <p>$
+        P(win)= &\sum_{i,j \in \{0,1\}}P(x=i, y=j) P(win|x=i, y=j)\\
+        = $$ \sum_{i,j \in \{0,1\}}\frac{1}{4} P(win|x=i, y=j)\\
+        = \frac{1}{4} (P(a=0, b=0|x=0, y=0)+ P(a=1, b=1|x=0, y=0)\\
+        &+ P(a=0, b=0|x=1, y=0) +P(a=0, b=0|x=0, y=1)\\
+        &+ P(a=1, b=1|x=1, y=0)+ P(a=1, b=1|x=0, y=0) \\
+        &+ P(a=0, b=1|x=1, y=1)+ P(a=1, b=0|x=1, y=1)).
+    $
+    Alice and Bob's probability to measure $(a,b)$ after applying the rotation $R_Y$ with angles $\theta_x, \tau_y$ based on their inputs $(x,y)$ is given by
+    \begin{align*}
+        P(a,b|x,y)= &\langle \psi | (R_Y(\theta_x)\otimes R_Y(\tau_y))(P_a\otimes P_b)(R_Y(\theta_x)\otimes R_Y(\tau_y)))| \psi \rangle \\
+        =& \frac{1}{2} |(R_Y(\theta_x)\cdot R_Y(\tau_y)^{-1})_{a,b}|^2
+    \end{align*}
+    where $P_a= \ket{a}\bra{a}$, $P_b= \ket{b}\bra{b}$.\\
+    The goal of this game is to find $\theta_x, \tau_y$ such that $P(\text{win})$ is maximized.</p>
+  </div>
+</div>
+
+<div style="margin-bottom: 500px"></div>
 <script>
 var ctx = document.getElementById('myChart').getContext('2d');
 var myChart = new Chart(ctx, {
@@ -256,7 +363,7 @@ var myChart = new Chart(ctx, {
             fill: true,
             data: [0],
             borderWidth: 2,
-            borderColor: 'rgb(0, 200, 0)',
+            borderColor: 'rgb(0, 75, 19)',
             backgroundColor: "rgba(25, 10, 103, 0.1)",
             tension: 0.1
         }]
@@ -293,8 +400,8 @@ function getProbabilities() {
             addData(myChart, n, response['prob']);
             n += 1; 
             $("#sendParameter").html("Start Simulation")
-            $("#sendParameter").removeClass("btn-danger")
-            $("#sendParameter").addClass("btn-outline-success")
+            $("#sendParameter").removeClass("btn-warning")
+            $("#sendParameter").addClass("btn-outline-dark")
             }
         })
 }
@@ -303,8 +410,8 @@ function getProbabilities() {
 $("#sendParameter").click(function(){
     $(".circular").click()
     $("#sendParameter").html("Loading ... ")
-    $("#sendParameter").removeClass("btn-outline-success")
-    $("#sendParameter").addClass("btn btn-danger")
+    $("#sendParameter").removeClass("btn-outline-dark")
+    $("#sendParameter").addClass("btn btn-warning")
     
 })
 
@@ -321,7 +428,10 @@ function gcd(a, b) {
 
 
 function getInTermsOfPi(targetDiv, d){
-    
+    if(d==0 | d==1 | d==-1){
+        $("#"+targetDiv+"_descr").html(d+ "&pi;")
+        return 
+    }
     len = d.toString().length - 2
     sign = Math.sign(d)
     d *= sign
@@ -374,6 +484,20 @@ function circularProgress(){
         }
         }, 30);
     
+}
+
+function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
 }
 
  
