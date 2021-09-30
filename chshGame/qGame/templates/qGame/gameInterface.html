@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=6000px">
+    <meta name="viewport" content="width=1000px">
 <title>Page Title</title>
 {% load static %}
 
@@ -16,14 +16,23 @@
 <link href="{% static 'qGame/styles.css' %}" rel = "stylesheet">
     <style>
         body {
-          background-color: rgb(255, 255, 255);
-         
+          background-color: rgb(248, 248, 248);
+          font-family: 'Times New Roman', Times, serif;
         }
         
         h1 {
           color: rgb(0, 0, 0);
           margin-left: 40px;
         } 
+
+        a {
+            color: black;
+            transition: text-shadow 1s;
+        }
+        a:hover{
+            color:rgb(27, 27, 27); 
+            text-shadow: 2px 2px rgb(45, 114, 141) ;
+        }
 
         .card {
             box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
@@ -186,20 +195,21 @@
  
 
 
-<canvas id="myChart" width="800" height="200" style="margin: 0 auto; z-index: 200; background-color: white;"></canvas>
+<canvas id="myChart" width="800" height="200" style="margin: 0 auto; z-index: 200; background-color: rgb(248, 248, 248);"></canvas>
 
 <div style=" position:absolute; top: 5%; left:0%">
-    <h1 id="" style="font-size: 70px">CHSH Game</h1>
+    <a id="" href="{% url 'index' %}" style="font-size: 70px; text-decoration: none;">CHSH Game</a>
 </div>
 
-<div style=" position:absolute; top: 5%; left:80%; ;">
- <h1 id="probUpdate" style="font-size: 70px">0</h1> Simulation (N=100)
-</div>
+<button id="probDisplay"class="btn btn-outline-info"style=" position:absolute; top: 5%; left:80%;  border-radius:5px;">
+ <h1 id="probUpdate" style="font-size: 70px; margin:auto">0</h1> Probability (N=100)
+</button>
 
 <div style="position: relative; opacity:0">
     . <h1 ></h1>
 </div>
 
+<div >
 <!-- Here the two Arrows are drawn -->
 <svg height="400" width="100%" style="position: absolute; z-index: -2">
     <symbol id="myPath" viewBox="0 0 100 100">
@@ -209,7 +219,7 @@
     <use xlink:href="#myPath" transform="translate(525, 50) scale(0.5)" />
 </svg>
 
-<div style="position:absolute; margin-left:auto; margin-right:auto; left:39%; top:38%; z-index:10">
+<div style="position:absolute; margin-left:auto; margin-right:auto; left:39%; top:35%; z-index:10">
     $x \qquad \qquad \qquad  \qquad$ $\qquad \qquad \qquad \qquad y$
 </div>
 <!-- The boxes with the Alien, Alice and Bob are shwon -->
@@ -239,7 +249,7 @@
                 <div class="ellipse ellipse2"></div>
             </div>
 
-            <button id="sendParameter" type="button" class="btn btn-outline-dark" style="z-index:10; margin-left:auto; margin-right:auto; width: 80%; height:20%">Start Simulation</button>
+            <button id="sendParameter" type="button" class="btn btn-outline-info" style="z-index:10; margin-left:auto; margin-right:auto; width: 80%; height:20%">Start Simulation</button>
         </div>  
        
         <div class='card' style="margin: 0; margin-right:auto; width: 20%">
@@ -253,11 +263,11 @@
     </div>  
 </div>
 
-<div style="position:absolute; margin-left:auto; margin-right:auto; left:39%; top:82%; z-index:10">
+<div style="position:absolute; margin-left:auto; margin-right:auto; left:39%; top:80%; z-index:10">
     $a \qquad \qquad \qquad \qquad  $ $\qquad  \qquad \qquad \qquad b$
 </div>
 
-<div class='card' style="margin: auto;top:86%;  left:45%; width: 10.25%; margin-bottom: 6.5%; position: absolute;" >
+<div class='card' style="margin-top: 100; top:85%;  left:45%; width: 10.25%; margin-bottom: 6.5%; position: absolute;" >
     <div class='card-body'>
         $x\cdot y = a \bigoplus b \quad ? $
     </div>
@@ -290,7 +300,7 @@
 
 </div>
 
-<div class="circular" style="cursor: pointer; z-index: -10; transform: scale(0.9); bottom:100px; top:8% ;left:20%; right:50%" onclick="circularProgress()" >
+<div class="circular" style="top:8% ; position:absolute; cursor: pointer; z-index: -10; transform: scale(0.9); bottom:100px;left:20%; right:50%" onclick="circularProgress()" >
     <div class="inner"></div>
     <div class="number">Start</div>
     <div class="circle">
@@ -302,11 +312,11 @@
       </div>
     </div>
   </div>
-
+</div>
   <div style="margin-bottom:300px"></div>
 
   <!-- Here the Info Box for explanation comes in -->
-<div style="margin-left:auto; margin-right: auto; width: 50%">
+<div style="margin-left:auto; margin-right: auto; width: 60%">
   <div class="tab">
     <button class="tablinks" onclick="openCity(event, 'London')">About QuNetSim</button>
     <button class="tablinks" onclick="openCity(event, 'Paris')">Classical Strategy</button>
@@ -315,58 +325,82 @@
   
   <div id="London" class="tabcontent">
     <h3>QuNetSim</h3>
-    <p>\subsubsection*{QuNetSim}
-        Each time you press the "Start simulation" button, the simulation of this quantum network including all operations and measurements is run using QuNetSim.\\
+    <p>
+        Each time you press the "Start simulation" button, the simulation of this quantum network including all operations and measurements is run using QuNetSim.
         QuNetSim is a Python software framework developed by researchers at Technical University of Munich that can be used to simulate quantum networks. 
-        The goal of QuNetSim is to make it easier to investigate and test quantum networking protocols over various quantum network configurations and parameters. \\
+        The goal of QuNetSim is to make it easier to investigate and test quantum networking protocols over various quantum network configurations and parameters. 
         Learn more about QuNetSim here: 
-        \url{https://arxiv.org/abs/2003.06397}</p>
+        <a href="https://arxiv.org/abs/2003.06397">QuNetSim: A Software Framework for Quantum Networks</a></p>
   </div>
   
   <div id="Paris" class="tabcontent">
     <h3>Best Classical Strategy</h3>
-    <p>The classical strategy with highest winning probability is given by Alice and Bob setting $(a,b)= (0,0)$ independent of the input $(x,y)$. Doing this, they reach a winning probability of $75\%$.
-        $\begin{align*}
-            P(\text{win}) = P(a=0, b=0,x=0, y=0)+ P(a=0, b=0,x=1, y=0) +P(a=0, b=0,x=0, y=1) = 1/4 + 1/4 + 1/4 = 3/4 
-        \end{align*}$</p> 
+    <p>The classical strategy with highest winning probability is given by Alice and Bob setting $(a,b)= (0,0)$ independent of the input $(x,y)$. Doing this, they reach a winning probability of $75%$.
+        $
+            P(win) = P(a=0, b=0,x=0, y=0)+ P(a=0, b=0,x=1, y=0) +P(a=0, b=0,x=0, y=1) $
+            $= 1/4 + 1/4 + 1/4 = 3/4 
+        $</p> 
   </div>
   
   <div id="Tokyo" class="tabcontent">
     <h3>Calculations for the quantum winning probability</h3>
     <p>$
-        P(win)= &\sum_{i,j \in \{0,1\}}P(x=i, y=j) P(win|x=i, y=j)\\
-        = $$ \sum_{i,j \in \{0,1\}}\frac{1}{4} P(win|x=i, y=j)\\
-        = \frac{1}{4} (P(a=0, b=0|x=0, y=0)+ P(a=1, b=1|x=0, y=0)\\
-        &+ P(a=0, b=0|x=1, y=0) +P(a=0, b=0|x=0, y=1)\\
-        &+ P(a=1, b=1|x=1, y=0)+ P(a=1, b=1|x=0, y=0) \\
-        &+ P(a=0, b=1|x=1, y=1)+ P(a=1, b=0|x=1, y=1)).
+        P(win)= &\sum_{i,j \in \{0,1\}}P(x=i, y=j) P(win|x=i, y=j)
+        = $
+        $ \sum_{i,j \in \{0,1\}}\frac{1}{4} P(win|x=i, y=j)
+        = $ $\frac{1}{4} (P(a=0, b=0|x=0, y=0)+ P(a=1, b=1|x=0, y=0)
+        + P(a=0, b=0|x=1, y=0) +P(a=0, b=0|x=0, y=1) $ $
+        + P(a=1, b=1|x=1, y=0)+ P(a=1, b=1|x=0, y=0) 
+        + P(a=0, b=1|x=1, y=1)+ P(a=1, b=0|x=1, y=1)).
+    $ <br> <br>
+    Alice and Bob's probability to measure $(a,b)$ after applying the rotation $R_Y$ with angles $\theta_x, \phi_y$ based on their inputs $(x,y)$ is given by
     $
-    Alice and Bob's probability to measure $(a,b)$ after applying the rotation $R_Y$ with angles $\theta_x, \tau_y$ based on their inputs $(x,y)$ is given by
-    \begin{align*}
-        P(a,b|x,y)= &\langle \psi | (R_Y(\theta_x)\otimes R_Y(\tau_y))(P_a\otimes P_b)(R_Y(\theta_x)\otimes R_Y(\tau_y)))| \psi \rangle \\
-        =& \frac{1}{2} |(R_Y(\theta_x)\cdot R_Y(\tau_y)^{-1})_{a,b}|^2
-    \end{align*}
-    where $P_a= \ket{a}\bra{a}$, $P_b= \ket{b}\bra{b}$.\\
-    The goal of this game is to find $\theta_x, \tau_y$ such that $P(\text{win})$ is maximized.</p>
+        P(a,b|x,y)= \langle \psi | (R_Y(\theta_x)\otimes R_Y(\tau_y))(P_a\otimes P_b)(R_Y(\theta_x)\otimes R_Y(\phi_y)))| \psi \rangle \\
+        = \frac{1}{2} |(R_Y(\theta_x)\cdot R_Y(\phi_y)^{-1})_{a,b}|^2
+    $
+    where $P_a= \langle a | a \rangle $, $P_b= \langle b | b \rangle $.
+    The goal of this game is to find $\theta_x, \phi_y$ such that $P(win)$ is maximized.</p>
   </div>
 </div>
 
 <div style="margin-bottom: 500px"></div>
+
+<canvas id="secondChart"></canvas>
 <script>
+
+parameterHistory = [$("#t_0").val() + $("#t_1").val() + $("#phi_0").val() + $("#phi_1").val()]
 var ctx = document.getElementById('myChart').getContext('2d');
+pointBackgroundColors = ["#ff0000"]
+pointRadii = [2]
+stateChanged = [0]
 var myChart = new Chart(ctx, {
-    type: 'line',
+    
     data: {
         labels: [0],
         datasets: [{
+            type: 'line',
             label: 'Current Winning Probability',
             fill: true,
             data: [0],
             borderWidth: 2,
-            borderColor: 'rgb(0, 75, 19)',
-            backgroundColor: "rgba(25, 10, 103, 0.1)",
+            borderColor: 'rgb(0, 0, 0)',
+            backgroundColor: "rgba(25, 10, 103, 0.05)",
+            pointBackgroundColor: pointBackgroundColors,
+            pointRadius: pointRadii,
             tension: 0.1
+        },
+        {
+            type: 'bar',
+            label: 'Parameter Change',
+            data: stateChanged,
+            barPercentage: 0.5,
+            barThickness: 2,
+            maxBarThickness: 8,
+            borderColor: 'rgb(0,0,0,1)',
+            backgroundColor:  'rgb(0,0,0,1)'
+            
         }]
+            
     },
     options: {
         scales: {
@@ -381,6 +415,7 @@ var myChart = new Chart(ctx, {
     }
 });
 
+
 async function addData(chart, label, data) {
     chart.data.labels.push(label);
     chart.data.datasets.forEach((dataset) => {
@@ -388,6 +423,25 @@ async function addData(chart, label, data) {
     });
     chart.update();
 }
+
+async function colorUpdate(myChart){
+   stateVar = $("#t_0").val() + $("#t_1").val() + $("#phi_0").val() + $("#phi_1").val()
+   stateChanged.pop()
+    if (stateVar != parameterHistory.at(-1)) {
+        pointBackgroundColors.push("#00ff00");
+        pointRadii.push(5)
+        parameterHistory.push(stateVar)
+        stateChanged.push(1)
+    } else {
+        pointBackgroundColors.push("#ff0000");
+        pointRadii.push(2)
+        stateChanged.push(0)
+    }
+    console.log(stateChanged)
+    myChart.update();
+    console.log(pointBackgroundColors)
+}
+
 
 var n = 1
 
@@ -398,10 +452,14 @@ function getProbabilities() {
         success: function(response){
             $("#probUpdate").html(response['prob'])
             addData(myChart, n, response['prob']);
+            colorUpdate(myChart)
             n += 1; 
             $("#sendParameter").html("Start Simulation")
-            $("#sendParameter").removeClass("btn-warning")
-            $("#sendParameter").addClass("btn-outline-dark")
+            $("#sendParameter").removeClass("btn-danger")
+            $("#sendParameter").addClass("btn-outline-info")
+
+            $("#probDisplay").removeClass("btn btn-outline-danger")
+            $("#probDisplay").addClass("btn btn-outline-info")
             }
         })
 }
@@ -410,8 +468,10 @@ function getProbabilities() {
 $("#sendParameter").click(function(){
     $(".circular").click()
     $("#sendParameter").html("Loading ... ")
-    $("#sendParameter").removeClass("btn-outline-dark")
-    $("#sendParameter").addClass("btn btn-warning")
+    $("#sendParameter").removeClass("btn-outline-info")
+    $("#probDisplay").removeClass("btn-outline-info")
+    $("#sendParameter").addClass("btn btn-danger")
+    $("#probDisplay").addClass("btn btn-outline-danger")
     
 })
 
@@ -499,6 +559,7 @@ function openCity(evt, cityName) {
   document.getElementById(cityName).style.display = "block";
   evt.currentTarget.className += " active";
 }
+
 
  
 </script>

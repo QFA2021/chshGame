@@ -107,16 +107,23 @@
 
 <center>
 <h1>Welcome to CHSH Game</h1>
-<p>Here we try to make accessible an interesting Quantum Game known as <a href="https://en.wikipedia.org/wiki/CHSH_game">CHSH Game</a>. Have fun</p>
-<a href="{% url 'gameInterface' %}">Go to Game</a>
+<p>Here we try to make accessible an interesting Quantum Game known as <a href="https://en.wikipedia.org/wiki/CHSH_game">CHSH Game</a>. Have fun.</p>
+<a href="{% url 'gameInterface' %}">Go to Game</a> 
 
-
+<p>Or scroll down for the story</p>
+<button class="btn btn-outline-light" style="transform: scale(4); margin-top:100px" onclick="window.scrollTo({
+    top: 400,
+    behavior: 'smooth',
+  });">
+    
+    $\downarrow $
+</button>
 <div style="overflow: scroll; height:400px;"></div>
 <section class="intro">
     Once upon a time Alice and Bob 
 </section>
 
-<section class="fadeIn" style="opacity: 0; transform: scale(0.6)">
+<section class="fadeIn" style="opacity: 0; transform: scale(0.6); margin-top: 4cm">
     <img src="{% static 'qGame/images/alice.png' %}" > 
     <img src="{% static 'qGame/images/bob.png' %}">
 </section>
@@ -160,7 +167,7 @@ fell deeply in love and created their own shared Bell state $|\Psi \rangle = \fr
 <section>
 <img src="{% static 'qGame/images/alice.png' %}" style=" transform: scale(0.6)" > 
    <img src="{% static 'qGame/images/bob.png' %}" style=" transform: scale(0.6)">
-   <div style=" transform: scale(2.2)" >$y \in \{ 0,1 \}  \qquad \qquad \qquad \qquad \qquad x \in \{ 0,1\} $ </div>
+   <div style=" transform: scale(2.2)" >$x \in \{ 0,1 \}  \qquad \qquad \qquad \qquad \qquad y \in \{ 0,1\} $ </div>
 </section>
 
 <div style="margin-bottom: 10cm"></div>
@@ -176,18 +183,18 @@ fell deeply in love and created their own shared Bell state $|\Psi \rangle = \fr
     
     You’ve done some calculations and found out that if they do not use their shared entanglement, the best they can do is to win with probability up to 75%. 
     You’re quite sure that quantumly they can do better. 
-    After a lot of thinking you had a brilliant idea: Alice and Bob should perform operations on their part of the Bell state based on their input x and y. 
+    After a lot of thinking you had a brilliant idea: Alice and Bob should perform operations on their part of the Bell state based on their input $x$ and $y$. 
     This way they are able to influence measurement outcomes of each other. 
-    Mathematically this means that Alice and Bob will first both apply rotations R_Y (θ_x), R_Y (τ_y) on their local part of the Bell state with angles θ_x, τ_y dependent on x and y.
-    Afterwards, they will measure their system in the computational basis and send the measurement outcomes a,b to the Alien.
+    Mathematically this means that Alice and Bob will first both apply rotations $R_Y (\theta_x), R_Y (\phi_y)$ on their local part of the Bell state with angles $\theta_x, \phi_y$ dependent on $x$ and $y$.
+    Afterwards, they will measure their system in the computational basis and send the measurement outcomes $a,b$ to the Alien.
     In your calculations you proved that using this quantum strategy, a winning probability up to 85% is possible. 
     Unfortunately, the Alien found out that you are trying to help them so it stole your calculations. 
-    Now you don’t remember which angles θ_x, τ_y Alice and Bob should choose for their rotations. 
+    Now you don’t remember which angles $\theta_x, \phi_y$ Alice and Bob should choose for their rotations. 
     Use the following set up to find the best choice of angles and help to prove that true love exists.
 </section>
 
 
-<button class="btn btn-light"onclick="goToGame()">Go to Game </button>
+<button class="btn btn-outline-light" style="transform: scale(3); margin-top: -30cm" onclick="goToGame()">Go to Game $\to$ </button>
 
 <div style="height:400px; bottom:2000px"></div>
 
@@ -216,7 +223,7 @@ $(window).scroll(function () {
   }
 
 
-  if($(window).scrollTop() > 1400) {
+  if($(window).scrollTop() > 2100) {
     $(".logo").addClass("animated");
   }
   else {
