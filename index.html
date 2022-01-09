@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>CHSH Game</title>
+    <script src="static/LaTeXMathML.js" ></script> 
+    <script src="static/jQuery.js"></script>
+<!--    <script src="https://fred-wang.github.io/mathjax.js/mpadded-min.js"></script> -->
+<script>
+    (function(){window.addEventListener("load",function(){var a,b;if(document.body.getElementsByTagNameNS("http://www.w3.org/1998/Math/MathML","math")[0]&&(document.body.insertAdjacentHTML("afterbegin","<div style='border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px;'><math xmlns='http://www.w3.org/1998/Math/MathML'><mpadded height='23px' width='77px'></mpadded></math></div>"),b=document.body.firstChild,a=b.firstChild.firstChild.getBoundingClientRect(),
+document.body.removeChild(b),1<Math.abs(a.height-23)||1<Math.abs(a.width-77)))a=document.createElement("script"),a.src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=MML_HTMLorMML",document.head.appendChild(a)})})();
+
+</script>
+   
+    
+    <link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/styles.css'" rel="stylesheet">
+
+<style>
+        body {
+            margin: 0;
+            overflow: scroll ;
+            color:rgb(255, 255, 255);
+            background-color: black;
+            height:4000px;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        .intro {
+            position: relative;
+            left:40%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            color: rgb(255, 255, 255);
+            font-weight: 500;
+            font-size: 3.25rem;
+            width: 80%;
+            opacity: 0;
+            
+            /* animation: intro 2s ease-out 1s; */ 
+        }
+
+        .intro.animated{
+            animation: intro 2s;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes intro {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .logo {
+            position: relative;
+            left:50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            z-index: 2;
+            width: 100%;
+            opacity: 1;
+            
+        }
+        .logo.animated{
+            animation: logo 2s ease-out 1s; 
+            animation-fill-mode: forwards;
+        }
+        .logo img {
+            width: inherit;
+        }
+
+        @keyframes logo {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            70% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(0);
+            }
+        }
+        .fadeIn.animated{
+            animation: fadeIn 2s ;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes fadeIn{
+            from{opacity: 0; }
+            to{opacity: 1; transform: translate(0%, -10%) scale(0.6);}
+        }
+
+        p {
+            color: #ffffff;
+        }
+        
+        .bottom-three {
+            margin-bottom: 15cm;
+        }
+
+
+        
+
+</style>
+</head>
+<body>
+
+<center>
+<h1>Welcome to CHSH Game</h1>
+<p>Here we try to make accessible an interesting Quantum Game known as <a href="https://en.wikipedia.org/wiki/CHSH_game">CHSH Game</a>. Have fun.</p>
+<a href="gameInterface.html">Go to Game</a> 
+
+<p>Or scroll down for the story</p>
+<button class="btn btn-outline-light" style="transform: scale(4); margin-top:100px" onclick="window.scrollTo({
+    top: 400,
+    behavior: 'smooth',
+  });">
+    
+    $\downarrow $
+</button>
+<div style="overflow: scroll; height:400px;"></div>
+<section class="intro">
+    Once upon a time Alice and Bob 
+</section>
+
+<section class="fadeIn" style="opacity: 0; transform: scale(0.6); margin-top: 4cm">
+    <img src="static/images/alice.png" > 
+    <img src="static/images/bob.png">
+</section>
+
+<div class="bottom-three"></div>
+
+<section class='intro'>
+fell deeply in love and created their own shared Bell state $|\Psi \rangle = \frac{|00⟩+11⟩}{\sqrt{2}}$. <br>
+    Long distances can neither destroy their love nor their entanglement. 
+    During their honeymoon Alice and Bob are presented the opportunity to do some cool new research project in space. 
+    They board a rocket and take off,
+</section>
+
+<div style="margin-bottom:15cm"></div>
+<section class="logo">
+    <img src="static/images/earth.jpg">
+</section>
+
+<section class="intro">
+    ...their connection still unbreakable.
+    On their way they pass a lonely Alien which invites them for dinner.
+</section>
+
+<section class="fadeIn" style="opacity: 0; transform: scale(0.6)">
+    <img src="static/images/alien.png" > 
+    
+</section>
+
+<div style="margin-bottom: 10cm"></div>
+
+<section class="intro">
+    They share their story with it and the more they talk about their strong connection and that they can influence each other even when far apart, the sadder the Alien becomes. 
+    The Alien has never experienced such a connection and doubts that it exists. 
+    The next morning the Alien challenges Alice and Bob to prove that distance cannot hurt their love and therefore teleports each of them on a different planet.
+    They will only be allowed to see each other again if they win the following game. 
+</section>
+<section class="intro">
+    The alien challenges Alice and Bob as follows: It gives a completely random (classical) bit $x$ to Alice and another completely random bit $y$ to Bob.
+</section>
+
+<section>
+<img src="static/images/alice.png" style=" transform: scale(0.6)" > 
+   <img src="static/images/bob.png" style=" transform: scale(0.6)">
+   <div style=" transform: scale(2.2)" >$x \in \{ 0,1 \}  \qquad \qquad \qquad \qquad \qquad y \in \{ 0,1\} $ </div>
+</section>
+
+<div style="margin-bottom: 10cm"></div>
+
+<section class="intro">
+    Alice will have to compute a binary answer $a$ and Bob a binary answer $b$. There is no time for Alice and Bob to use communication to solve their task, but they are allowed to use local quantum computers.
+    Alice and Bob are said to win the game if a ⊕ b = x · y. 
+</section>
+
+<div style="margin-bottom: 20cm"></div>
+<section class="intro">
+    Before they take off, they are allowed to call you, the best quantum scientist in the universe. Which strategy would you suggest them?
+    
+    You’ve done some calculations and found out that if they do not use their shared entanglement, the best they can do is to win with probability up to 75%. 
+    You’re quite sure that quantumly they can do better. 
+    After a lot of thinking you had a brilliant idea: Alice and Bob should perform operations on their part of the Bell state based on their input $x$ and $y$. 
+    This way they are able to influence measurement outcomes of each other. 
+    Mathematically this means that Alice and Bob will first both apply rotations $R_Y (\theta_x), R_Y (\phi_y)$ on their local part of the Bell state with angles $\theta_x, \phi_y$ dependent on $x$ and $y$.
+    Afterwards, they will measure their system in the computational basis and send the measurement outcomes $a,b$ to the Alien.
+    In your calculations you proved that using this quantum strategy, a winning probability up to 85% is possible. 
+    Unfortunately, the Alien found out that you are trying to help them so it stole your calculations. 
+    Now you don’t remember which angles $\theta_x, \phi_y$ Alice and Bob should choose for their rotations. 
+    Use the following set up to find the best choice of angles and help to prove that true love exists.
+</section>
+
+
+<button class="btn btn-outline-light" style="transform: scale(3); margin-top: -30cm" onclick="goToGame()">Go to Game $\to$ </button>
+
+<div style="height:400px; bottom:2000px"></div>
+
+</center>
+
+
+<script>
+function goToGame(){
+    window.location.href = "gameInterface.html"
+}
+
+$(window).scroll(function () {
+    y = $(window).scrollTop()
+  if($(window).scrollTop() > 10) {
+    $(".intro").addClass("animated");
+  }
+  else {
+    $(".intro").removeClass("animated");
+  }
+
+  if( (2000 > y && y > 400)  | (y>4000) ) {
+    $(".fadeIn").addClass("animated");
+  }
+  else {
+    $(".fadeIn").removeClass("animated");
+  }
+
+
+  if($(window).scrollTop() > 2100) {
+    $(".logo").addClass("animated");
+  }
+  else {
+    $(".logo").removeClass("animated");
+  }
+
+
+});
+
+
+
+window.onscroll = function() {
+    console.log('scrolling');
+    
+};
+$(window),scroll(function(){
+    console.log("sdfsdf")
+})
+function scrollFast() {
+    console.log("Scro;ll faster ")
+}
+   
+    
+
+    
+</script>
+
+</body>
+</html>

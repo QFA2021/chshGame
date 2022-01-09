@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=1000px">
+<title>CHSH Game</title>
+<script src="static/jQuery.js"></script>
+<script src="static/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="static/chart.js"></script>
+<script src="static/LaTeXMathML.js" ></script> 
+<script src="https://fred-wang.github.io/mathml.css/mspace.js"></script>
+<script>
+    (function(){window.addEventListener("load",function(){var a,b;if(document.body.getElementsByTagNameNS("http://www.w3.org/1998/Math/MathML","math")[0]&&(document.body.insertAdjacentHTML("afterbegin","<div style='border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px;'><math xmlns='http://www.w3.org/1998/Math/MathML'><mpadded height='23px' width='77px'></mpadded></math></div>"),b=document.body.firstChild,a=b.firstChild.firstChild.getBoundingClientRect(),
+document.body.removeChild(b),1<Math.abs(a.height-23)||1<Math.abs(a.width-77)))a=document.createElement("script"),a.src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=MML_HTMLorMML",document.head.appendChild(a)})})();
+
+</script>
+<script src="static/quantum.js"></script>
+
+<link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="static/styles.css" rel = "stylesheet">
+    <style>
+        body {
+          background-color: rgb(248, 248, 248);
+          font-family: 'Times New Roman', Times, serif;
+        }
+        
+        h1 {
+          color: rgb(0, 0, 0);
+          margin-left: 40px;
+        } 
+
+        a {
+            color: black;
+            transition: text-shadow 1s;
+        }
+        a:hover{
+            color:rgb(27, 27, 27); 
+            text-shadow: 2px 2px rgb(45, 114, 141) ;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            border: 2px solid black;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+
+        .card-body:hover{
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); 
+        }
+
+        .container {
+            padding: 2px 16px;
+        }
+
+        .parameter {
+            font-weight: bold; 
+            font-size: 150%
+        }
+
+        .simulationButton{
+           height: 100px;
+           width: 100px;
+           border-radius: 100%
+        }
+
+        #myProgress {
+        width: 100%;
+        background-image: white;
+        border-radius: 10;
+        }
+
+        #myBar {
+        width: 1%;
+        height: 30px;
+        background-image: linear-gradient(to right, #ff0000, #0400ff, green);
+        
+        }
+
+                /* Circular Progress bar */
+        .circular{
+        height:1000px;
+        width: 1000px;
+        position: absolute;
+        transform:scale(2);
+        }
+
+        .circular .inner{
+        position: absolute;
+        z-index: 6;
+        top: 50%;
+        left: 50%;
+        height: 800px;
+        width: 800px;
+        margin: -400px 0 0 -400px;
+        background: #ffffff;
+        border-radius: 100%;
+        }
+        .circular .number{
+        position: absolute;
+        top:50%;
+        left:50%;
+        transform: translate(-50%, -50%);
+        z-index:10;
+        font-size:18px;
+        font-weight:500;
+        color:#000000;
+        }
+        .circular .bar{
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background: rgb(255, 35, 35);
+        -webkit-border-radius: 100%;
+        clip: rect(0px, 1000px, 1000px, 500px);
+        }
+        .circle .bar .progress{
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        -webkit-border-radius: 100%;
+        clip: rect(0px, 500px, 1000px, 0px);
+        background: #0fa7ff;
+        }
+        .circle .left .progress{
+        z-index:1;
+        animation: left 0.2s linear both;
+        }
+        @keyframes left{
+        100%{
+            transform: rotate(180deg);
+        }
+        }
+        .circle .right {
+        transform: rotate(180deg);
+        z-index:3;
+        
+        }
+        .circle .right .progress{
+        animation: right 0.2s linear both;
+        animation-delay:0.2s;
+        }
+        @keyframes right{
+        100%{
+            transform: rotate(180deg);
+        }
+        }
+
+        .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+        }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 17px;
+        }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+        background-color: #ddd;
+        }
+
+        /* Create an active/current tablink class */
+        .tab button.active {
+        background-color: #ccc;
+        }
+
+        /* Style the tab content */
+        .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+        }
+
+        .buttonBorder {
+        animation: color-change 5s infinite;
+        }
+
+        @keyframes color-change {
+        0% { color: red; }
+        50% { color: blue; }
+        100% { color: red; }
+        }
+                
+        </style>
+
+</head>
+<body>
+    
+</head>
+<body>
+    
+    
+
+
+ 
+
+
+<canvas id="myChart" width="800" height="200" style="margin: 0 auto; z-index: 200; background-color: rgb(248, 248, 248);"></canvas>
+
+<div style=" position:absolute; top: 5%; left:0%">
+    <a id="" href="/" style="font-size: 70px; text-decoration: none;">CHSH Game</a>
+</div>
+
+<button id="probDisplay"class="btn btn-outline-info"style=" position:absolute; top: 5%; left:80%;  border-radius:5px;">
+ <h1 id="probUpdate" style="font-size: 70px; margin:auto">0</h1> Probability (N=1000)
+</button>
+
+<div style="position: relative; opacity:0">
+    . <h1 ></h1>
+</div>
+
+<div >
+<!-- Here the two Arrows are drawn -->
+<svg height="400" width="100%" style="position: absolute; z-index: -2">
+    <symbol id="myPath" viewBox="0 0 100 100">
+        <path id="lineCA" d="m -1 10 l 150 50" stroke="black" stroke-width="2" fill="none" />
+        <path id="lineCB" d="m 1 10 l -150 50" stroke="black" stroke-width="2" fill="none" />
+    </symbol>
+    <use xlink:href="#myPath" transform="translate(525, 50) scale(0.5)" />
+</svg>
+
+<div style="position:absolute; margin-left:auto; margin-right:auto; left:39%; top:35%; z-index:10">
+    $x \qquad \qquad \qquad  \qquad$ $\qquad \qquad \qquad \qquad y$
+</div>
+<!-- The boxes with the Alien, Alice and Bob are shwon -->
+<div class='card' style="margin: auto; width: 10%; height: 10%; margin-bottom: 6.5%" >
+    <div class='card-body'>
+        👽 $x,y \in \{0,1 \} $
+    </div>
+</div>
+
+
+<div class="container-fluid" style="margin: 0 auto ;">
+    <div class="row">
+        <div class='card' style="margin: 0 ; margin-left:auto; width: 20%" >
+            <div class='card-body'>
+                <h4 class="card-title" style="font-style: italic;">Alice</h4>
+                $\theta_{(x=0)}=$ <label id='t_0_descr' class="parameter">0</label><input type="range" min="-1" max="1" step="0.0625" id="t_0" value="0" oninput="getInTermsOfPi(this.id, this.value)" ><br>
+                $\theta_{(x=1)}=$ <label id='t_1_descr' class="parameter">0</label> <input type="range" min="-1" max="1" step="0.0625" id="t_1" value="0" oninput="getInTermsOfPi(this.id, this.value)" >
+            </div>
+        </div>
+        
+        <div class='card'  style="margin-left: 20% ; width: 20%; border:0; box-shadow: 0 0 0 ; margin-left: 0%">
+            <br><br>
+             <a style="margin-left: auto; margin-right:auto"> $| \Psi \rangle = \frac{|00\rangle + |11\rangle}{\sqrt{2}}$ </a>
+            <div class="holder" style="width: 100%">
+            
+                <div class="ellipse"></div>
+                <div class="ellipse ellipse2"></div>
+            </div>
+
+            <button id="sendParameter" type="button" class="btn btn-outline-info" style="z-index:10; margin-left:auto; margin-right:auto; width: 80%; height:20%">Simulate</button>
+        </div>  
+       
+        <div class='card' style="margin: 0; margin-right:auto; width: 20%">
+            <div class='card-body'>
+                <h4 class="card-title" style="font-style: italic;">Bob</h4>
+                $\phi_{(y=0)}=$ <label id='phi_0_descr' class="parameter">0</label><input type="range" min="-1" max="1" step="0.0625" id="phi_0" value="0" oninput="getInTermsOfPi(this.id, this.value)" ><br>
+                $\phi_{(y=1)}=$ <label id='phi_1_descr' class="parameter">0</label> <input type="range" min="-1" max="1" step="0.0625" id="phi_1" value="0" oninput="getInTermsOfPi(this.id, this.value)" >
+            </div>
+            <!-- <img class="" style="background-color: rgb(243, 243, 243);" src="static/images/measurement.png"  alt="∡"> --> 
+        </div>
+    </div>  
+</div>
+
+<div style="position:absolute; margin-left:auto; margin-right:auto; left:39%; top:80%; z-index:10">
+    $a \qquad \qquad \qquad \qquad  $ $\qquad  \qquad \qquad \qquad b$
+</div>
+
+<div class='card' style="margin-top: 100; top:85%;  left:45%; width: 10.25%; margin-bottom: 6.5%; position: absolute;" >
+    <div class='card-body'>
+        $x\cdot y = a \bigoplus b \quad ? $
+    </div>
+</div>
+
+<!-- Second paths -->
+<svg height="400" width="100%" style="position: absolute; z-index: -1; border: 0px solid black ">
+    <symbol id="mySecondPath" viewBox="0 0 100 100">
+        <path id="lineCA" d="m 25 50 L -125 0 " stroke="black" stroke-width="2" fill="none" />
+        <path id="lineCB" d="m 25 50 L 175 0 " stroke="black" stroke-width="2" fill="none" />
+    </symbol>
+    <use xlink:href="#mySecondPath" transform="translate(475, 2) scale(0.5)" />
+</svg>
+
+
+
+
+<br><br><br>
+<!-- <div id="myProgress" style="width: 50%; margin:auto">
+    <div id="myBar" ></div>
+</div> --> 
+
+
+<!-- $\lim_{x\to\infty} f(x) = k \choose r + \frac ab \sum_{n=1}^\infty a_n + 
+\displaystyle{ \left\{ \frac{1}{13} \sum_{n=1}^\infty b_n \right\} }.\$ --> 
+
+
+
+<p id="log"></p>
+
+</div>
+
+<div class="circular" style="top:8% ; position:absolute; cursor: pointer; z-index: -10; transform: scale(0.9); bottom:100px;left:20%; right:50%" onclick="circularProgress()" >
+    <div class="inner"></div>
+    <div class="number">Start</div>
+    <div class="circle">
+      <div class="bar left">
+        <div class="progressPrelim"></div>
+      </div>
+      <div class="bar right">
+        <div class="progressPrelim"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  <div style="margin-bottom:300px"></div>
+
+  <!-- Here the Info Box for explanation comes in -->
+<div style="margin-left:auto; margin-right: auto; width: 60%">
+  <div class="tab">
+    <button class="tablinks" onclick="openCity(event, 'London')">About QuNetSim</button>
+    <button class="tablinks" onclick="openCity(event, 'Paris')">Classical Strategy</button>
+    <button class="tablinks" onclick="openCity(event, 'Tokyo')">Quantum Strategy</button>
+  </div>
+  
+  <div id="London" class="tabcontent">
+    <h3>QuNetSim</h3>
+    <p>
+        Each time you press the "Start simulation" button, the simulation of this quantum network including all operations and measurements is run using QuNetSim.
+        QuNetSim is a Python software framework developed by researchers at Technical University of Munich that can be used to simulate quantum networks. 
+        The goal of QuNetSim is to make it easier to investigate and test quantum networking protocols over various quantum network configurations and parameters. 
+        Learn more about QuNetSim here: 
+        <a href="https://arxiv.org/abs/2003.06397">QuNetSim: A Software Framework for Quantum Networks</a></p>
+  </div>
+  
+  <div id="Paris" class="tabcontent">
+    <h3>Best Classical Strategy</h3>
+    <p>The classical strategy with highest winning probability is given by Alice and Bob setting $(a,b)= (0,0)$ independent of the input $(x,y)$. Doing this, they reach a winning probability of $75%$.
+        $
+            P(win) = P(a=0, b=0,x=0, y=0)+ P(a=0, b=0,x=1, y=0) +P(a=0, b=0,x=0, y=1) $
+            $= 1/4 + 1/4 + 1/4 = 3/4 
+        $</p> 
+  </div>
+  
+  <div id="Tokyo" class="tabcontent">
+    <h3>Calculations for the quantum winning probability</h3>
+    <p>$
+        P(win)= &\sum_{i,j \in \{0,1\}}P(x=i, y=j) P(win|x=i, y=j)
+        = $
+        $ \sum_{i,j \in \{0,1\}}\frac{1}{4} P(win|x=i, y=j)
+        = $ $\frac{1}{4} (P(a=0, b=0|x=0, y=0)+ P(a=1, b=1|x=0, y=0)
+        + P(a=0, b=0|x=1, y=0) +P(a=0, b=0|x=0, y=1) $ $
+        + P(a=1, b=1|x=1, y=0)+ P(a=1, b=1|x=0, y=0) 
+        + P(a=0, b=1|x=1, y=1)+ P(a=1, b=0|x=1, y=1)).
+    $ <br> <br>
+    Alice and Bob's probability to measure $(a,b)$ after applying the rotation $R_Y$ with angles $\theta_x, \phi_y$ based on their inputs $(x,y)$ is given by
+    $
+        P(a,b|x,y)= \langle \psi | (R_Y(\theta_x)\otimes R_Y(\tau_y))(P_a\otimes P_b)(R_Y(\theta_x)\otimes R_Y(\phi_y)))| \psi \rangle \\
+        = \frac{1}{2} |(R_Y(\theta_x)\cdot R_Y(\phi_y)^{-1})_{a,b}|^2
+    $
+    where $P_a= \langle a | a \rangle $, $P_b= \langle b | b \rangle $.
+    The goal of this game is to find $\theta_x, \phi_y$ such that $P(win)$ is maximized.</p>
+  </div>
+</div>
+
+<div style="margin-bottom: 500px"></div>
+
+<canvas id="secondChart"></canvas>
+<script>
+
+
+parameterHistory = [$("#t_0").val() + $("#t_1").val() + $("#phi_0").val() + $("#phi_1").val()]
+var ctx = document.getElementById('myChart').getContext('2d');
+pointBackgroundColors = ["#ff0000"]
+pointRadii = [2]
+stateChanged = [0]
+var myChart = new Chart(ctx, {
+    
+    data: {
+        labels: [0],
+        datasets: [{
+            type: 'line',
+            label: 'Current Winning Probability',
+            fill: true,
+            data: [0],
+            borderWidth: 2,
+            borderColor: 'rgb(0, 0, 0)',
+            backgroundColor: "rgba(25, 10, 103, 0.05)",
+            pointBackgroundColor: pointBackgroundColors,
+            pointRadius: pointRadii,
+            tension: 0.1
+        },
+        {
+            type: 'bar',
+            label: 'Parameter Change',
+            data: stateChanged,
+            barPercentage: 0.5,
+            barThickness: 2,
+            maxBarThickness: 8,
+            borderColor: 'rgb(0,0,0,1)',
+            backgroundColor:  'rgb(0,0,0,1)'
+            
+        }]
+            
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 1
+            },
+        },
+        maintainAspectRatio: false,
+        responsive: false 
+        
+    }
+});
+
+
+function addData(chart, label, data) {
+    chart.data.labels.push(label);
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.push(data);
+    });
+    chart.update();
+}
+
+function colorUpdate(myChart){
+   stateVar = $("#t_0").val() + $("#t_1").val() + $("#phi_0").val() + $("#phi_1").val()
+   stateChanged.pop()
+    if (stateVar != parameterHistory.at(-1)) {
+        pointBackgroundColors.push("#00ff00");
+        pointRadii.push(5)
+        parameterHistory.push(stateVar)
+        stateChanged.push(1)
+    } else {
+        pointBackgroundColors.push("#ff0000");
+        pointRadii.push(2)
+        stateChanged.push(0)
+    }
+    myChart.update();
+}
+
+
+var n = 1
+
+function getProbabilities() {
+   /* $.ajax({
+        data: {"t_0": $("#t_0").val() , "t_1": $("#t_1").val(), "phi_0": $("#phi_0").val(), "phi_1":$("#phi_1").val() },
+        async: true, 
+        success: function(response){
+            $("#probUpdate").html(response['prob'])
+            addData(myChart, n, response['prob']);
+            colorUpdate(myChart)
+            n += 1; 
+            $("#sendParameter").html("Start Simulation")
+            $("#sendParameter").removeClass("btn-danger")
+            $("#sendParameter").addClass("btn-outline-info")
+
+            $("#probDisplay").removeClass("btn btn-outline-danger")
+            $("#probDisplay").addClass("btn btn-outline-info")
+            }
+        }) */ 
+    data = {"t_0": $("#t_0").val() , "t_1": $("#t_1").val(), "phi_0": $("#phi_0").val(), "phi_1":$("#phi_1").val() }
+    p = nGames( data['t_0'], data['t_1'], data['phi_0'], data['phi_1'], 1000)
+    
+    $("#probUpdate").html(p)
+    addData(myChart, n, p);
+    colorUpdate(myChart)
+    n += 1; 
+    $("#sendParameter").html("Simulate")
+    $("#sendParameter").removeClass("btn-danger")
+    $("#sendParameter").addClass("btn-outline-info")
+
+    console.log("trying to remove ")
+    $("#probDisplay").removeClass("btn btn-outline-danger")
+    $("#probDisplay").addClass("btn btn-outline-info")
+}
+
+
+$("#sendParameter").click(function(){
+    
+    $("#sendParameter").html("Loading ... ")
+    $("#sendParameter").removeClass("btn-outline-info")
+    $("#probDisplay").removeClass("btn-outline-info")
+    $("#sendParameter").addClass("btn btn-danger")
+    $("#probDisplay").addClass("btn btn-outline-danger") 
+    
+    circularProgress()
+})
+
+$(document).keyup(function(event) {
+    if (event.which === 13) {
+       $("#sendParameter").click()
+    }
+});
+
+function gcd(a, b) {
+  if (b < 0.0000001) return a;                // Since there is a limited precision we need to limit the value.
+  return gcd(b, Math.floor(a % b));           // Discard any fractions due to limitations in precision.
+};
+
+
+function getInTermsOfPi(targetDiv, d){
+    if(d==0 | d==1 | d==-1){
+        $("#"+targetDiv+"_descr").html(d+ "&pi;")
+        return 
+    }
+    len = d.toString().length - 2
+    sign = Math.sign(d)
+    d *= sign
+    denominator = Math.pow(10, len);
+    numerator = d * denominator;
+
+    divisor = gcd(numerator, denominator);    
+    numerator /= sign*divisor;                     
+    denominator /= divisor;                       
+
+    $("#"+targetDiv+"_descr").html(Math.floor(numerator) + '/' + Math.floor(denominator)+ "&pi;")
+}
+
+function wait(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+ }
+
+ //Logic for Progress Bar 
+var i = 0;
+
+function move() {
+    var elem = document.getElementById("myBar"); 
+    var width = 10;
+    var id = setInterval(frame, 25);
+    function frame() {
+        if (width >= 100) {
+            clearInterval(id);
+        } else {
+            width++; 
+            elem.style.width = width + '%'; 
+            
+        }
+    }
+}
+
+function circularProgress(){
+    getProbabilities()
+    $(".inner").css("background-color", "white")
+    counter = 0 
+    $(".progressPrelim").removeClass("progress")
+    progress = setInterval( function() {
+        $(".progressPrelim").addClass("progress")
+        if(counter >= 100 ){
+            $(".inner").css("background-color", "#ffffff")
+            $(".number").html("Start")
+            clearInterval(progress);
+        }else{
+            counter+=1;
+            $(".number").html(counter + "%")
+        }
+        }, 1);
+    
+    $("#sendParameter").html("Simulate")
+    $("#sendParameter").removeClass("btn-danger")
+    $("#sendParameter").addClass("btn-outline-info")
+    $("#probDisplay").removeClass("btn btn-outline-danger")
+    $("#probDisplay").addClass("btn btn-outline-info")
+    
+}
+
+function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+
+ 
+</script>
+</body>
+
+
+</html>
