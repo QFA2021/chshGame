@@ -2,10 +2,9 @@
 <html>
 <head>
 
-<title>Page Title</title>
-    {% load static %}
-    <script src="{% static 'qGame/LaTeXMathML.js' %}" ></script> 
-    <script src="{% static 'qGame/jQuery.js' %}"></script>
+<title>CHSH Game</title>
+    <script src="static/LaTeXMathML.js" ></script> 
+    <script src="static/jQuery.js"></script>
 <!--    <script src="https://fred-wang.github.io/mathjax.js/mpadded-min.js"></script> -->
 <script>
     (function(){window.addEventListener("load",function(){var a,b;if(document.body.getElementsByTagNameNS("http://www.w3.org/1998/Math/MathML","math")[0]&&(document.body.insertAdjacentHTML("afterbegin","<div style='border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px;'><math xmlns='http://www.w3.org/1998/Math/MathML'><mpadded height='23px' width='77px'></mpadded></math></div>"),b=document.body.firstChild,a=b.firstChild.firstChild.getBoundingClientRect(),
@@ -14,8 +13,8 @@ document.body.removeChild(b),1<Math.abs(a.height-23)||1<Math.abs(a.width-77)))a=
 </script>
    
     
-    <link href="{% static 'qGame/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'qGame/styles.css' %}" rel="stylesheet">
+    <link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/styles.css'" rel="stylesheet">
 
 <style>
         body {
@@ -113,7 +112,7 @@ document.body.removeChild(b),1<Math.abs(a.height-23)||1<Math.abs(a.width-77)))a=
 <center>
 <h1>Welcome to CHSH Game</h1>
 <p>Here we try to make accessible an interesting Quantum Game known as <a href="https://en.wikipedia.org/wiki/CHSH_game">CHSH Game</a>. Have fun.</p>
-<a href="{% url 'gameInterface' %}">Go to Game</a> 
+<a href="gameInterface.html">Go to Game</a> 
 
 <p>Or scroll down for the story</p>
 <button class="btn btn-outline-light" style="transform: scale(4); margin-top:100px" onclick="window.scrollTo({
@@ -129,8 +128,8 @@ document.body.removeChild(b),1<Math.abs(a.height-23)||1<Math.abs(a.width-77)))a=
 </section>
 
 <section class="fadeIn" style="opacity: 0; transform: scale(0.6); margin-top: 4cm">
-    <img src="{% static 'qGame/images/alice.png' %}" > 
-    <img src="{% static 'qGame/images/bob.png' %}">
+    <img src="static/images/alice.png" > 
+    <img src="static/images/bob.png">
 </section>
 
 <div class="bottom-three"></div>
@@ -144,7 +143,7 @@ fell deeply in love and created their own shared Bell state $|\Psi \rangle = \fr
 
 <div style="margin-bottom:15cm"></div>
 <section class="logo">
-    <img src="{% static 'qGame/images/earth.jpg' %}">
+    <img src="static/images/earth.jpg">
 </section>
 
 <section class="intro">
@@ -153,7 +152,7 @@ fell deeply in love and created their own shared Bell state $|\Psi \rangle = \fr
 </section>
 
 <section class="fadeIn" style="opacity: 0; transform: scale(0.6)">
-    <img src="{% static 'qGame/images/alien.png' %}" > 
+    <img src="static/images/alien.png" > 
     
 </section>
 
@@ -170,8 +169,8 @@ fell deeply in love and created their own shared Bell state $|\Psi \rangle = \fr
 </section>
 
 <section>
-<img src="{% static 'qGame/images/alice.png' %}" style=" transform: scale(0.6)" > 
-   <img src="{% static 'qGame/images/bob.png' %}" style=" transform: scale(0.6)">
+<img src="static/images/alice.png" style=" transform: scale(0.6)" > 
+   <img src="static/images/bob.png" style=" transform: scale(0.6)">
    <div style=" transform: scale(2.2)" >$x \in \{ 0,1 \}  \qquad \qquad \qquad \qquad \qquad y \in \{ 0,1\} $ </div>
 </section>
 
@@ -208,7 +207,7 @@ fell deeply in love and created their own shared Bell state $|\Psi \rangle = \fr
 
 <script>
 function goToGame(){
-    window.location.href = "{% url 'gameInterface' %}"
+    window.location.href = "gameInterface.html"
 }
 
 $(window).scroll(function () {

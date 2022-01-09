@@ -2,24 +2,21 @@
 <html>
 <head>
     <meta name="viewport" content="width=1000px">
-<title>Page Title</title>
-{% load static %}
-
-<script src="{% static 'qGame/jQuery.js' %}"></script>
-<script src="{% static 'qGame/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-<script src="{% static 'qGame/chart.js' %}"></script>
-<script src="{% static 'qGame/LaTeXMathML.js' %}" ></script> 
+<title>CHSH Game</title>
+<script src="static/jQuery.js"></script>
+<script src="static/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="static/chart.js"></script>
+<script src="static/LaTeXMathML.js" ></script> 
 <script src="https://fred-wang.github.io/mathml.css/mspace.js"></script>
-<!--<script src="https://fred-wang.github.io/mathjax.js/mpadded-min.js"></script> -->
 <script>
     (function(){window.addEventListener("load",function(){var a,b;if(document.body.getElementsByTagNameNS("http://www.w3.org/1998/Math/MathML","math")[0]&&(document.body.insertAdjacentHTML("afterbegin","<div style='border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px;'><math xmlns='http://www.w3.org/1998/Math/MathML'><mpadded height='23px' width='77px'></mpadded></math></div>"),b=document.body.firstChild,a=b.firstChild.firstChild.getBoundingClientRect(),
 document.body.removeChild(b),1<Math.abs(a.height-23)||1<Math.abs(a.width-77)))a=document.createElement("script"),a.src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=MML_HTMLorMML",document.head.appendChild(a)})})();
 
 </script>
-<script src="{% static 'qGame/quantum.js' %}"></script>
+<script src="static/quantum.js"></script>
 
-<link href="{% static 'qGame/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-<link href="{% static 'qGame/styles.css' %}" rel = "stylesheet">
+<link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="static/styles.css" rel = "stylesheet">
     <style>
         body {
           background-color: rgb(248, 248, 248);
@@ -214,7 +211,7 @@ document.body.removeChild(b),1<Math.abs(a.height-23)||1<Math.abs(a.width-77)))a=
 <canvas id="myChart" width="800" height="200" style="margin: 0 auto; z-index: 200; background-color: rgb(248, 248, 248);"></canvas>
 
 <div style=" position:absolute; top: 5%; left:0%">
-    <a id="" href="{% url 'index' %}" style="font-size: 70px; text-decoration: none;">CHSH Game</a>
+    <a id="" href="/" style="font-size: 70px; text-decoration: none;">CHSH Game</a>
 </div>
 
 <button id="probDisplay"class="btn btn-outline-info"style=" position:absolute; top: 5%; left:80%;  border-radius:5px;">
@@ -274,7 +271,7 @@ document.body.removeChild(b),1<Math.abs(a.height-23)||1<Math.abs(a.width-77)))a=
                 $\phi_{(y=0)}=$ <label id='phi_0_descr' class="parameter">0</label><input type="range" min="-1" max="1" step="0.0625" id="phi_0" value="0" oninput="getInTermsOfPi(this.id, this.value)" ><br>
                 $\phi_{(y=1)}=$ <label id='phi_1_descr' class="parameter">0</label> <input type="range" min="-1" max="1" step="0.0625" id="phi_1" value="0" oninput="getInTermsOfPi(this.id, this.value)" >
             </div>
-            <!-- <img class="" style="background-color: rgb(243, 243, 243);" src="{% static 'qGame/images/measurement.png' %}"  alt="∡"> --> 
+            <!-- <img class="" style="background-color: rgb(243, 243, 243);" src="static/images/measurement.png"  alt="∡"> --> 
         </div>
     </div>  
 </div>
