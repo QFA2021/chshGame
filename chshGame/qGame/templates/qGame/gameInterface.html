@@ -16,6 +16,7 @@
 document.body.removeChild(b),1<Math.abs(a.height-23)||1<Math.abs(a.width-77)))a=document.createElement("script"),a.src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=MML_HTMLorMML",document.head.appendChild(a)})})();
 
 </script>
+<script src="{% static 'qGame/quantum.js' %}"></script>
 
 <link href="{% static 'qGame/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
 <link href="{% static 'qGame/styles.css' %}" rel = "stylesheet">
@@ -128,7 +129,7 @@ document.body.removeChild(b),1<Math.abs(a.height-23)||1<Math.abs(a.width-77)))a=
         }
         .circle .left .progress{
         z-index:1;
-        animation: left 1.5s linear both;
+        animation: left 0.2s linear both;
         }
         @keyframes left{
         100%{
@@ -141,8 +142,8 @@ document.body.removeChild(b),1<Math.abs(a.height-23)||1<Math.abs(a.width-77)))a=
         
         }
         .circle .right .progress{
-        animation: right 1.5s linear both;
-        animation-delay:1.5s;
+        animation: right 0.2s linear both;
+        animation-delay:0.2s;
         }
         @keyframes right{
         100%{
@@ -185,6 +186,16 @@ document.body.removeChild(b),1<Math.abs(a.height-23)||1<Math.abs(a.width-77)))a=
         border: 1px solid #ccc;
         border-top: none;
         }
+
+        .buttonBorder {
+        animation: color-change 5s infinite;
+        }
+
+        @keyframes color-change {
+        0% { color: red; }
+        50% { color: blue; }
+        100% { color: red; }
+        }
                 
         </style>
 
@@ -207,7 +218,7 @@ document.body.removeChild(b),1<Math.abs(a.height-23)||1<Math.abs(a.width-77)))a=
 </div>
 
 <button id="probDisplay"class="btn btn-outline-info"style=" position:absolute; top: 5%; left:80%;  border-radius:5px;">
- <h1 id="probUpdate" style="font-size: 70px; margin:auto">0</h1> Probability (N=100)
+ <h1 id="probUpdate" style="font-size: 70px; margin:auto">0</h1> Probability (N=1000)
 </button>
 
 <div style="position: relative; opacity:0">
@@ -254,7 +265,7 @@ document.body.removeChild(b),1<Math.abs(a.height-23)||1<Math.abs(a.width-77)))a=
                 <div class="ellipse ellipse2"></div>
             </div>
 
-            <button id="sendParameter" type="button" class="btn btn-outline-info" style="z-index:10; margin-left:auto; margin-right:auto; width: 80%; height:20%">Start Simulation</button>
+            <button id="sendParameter" type="button" class="btn btn-outline-info" style="z-index:10; margin-left:auto; margin-right:auto; width: 80%; height:20%">Simulate</button>
         </div>  
        
         <div class='card' style="margin: 0; margin-right:auto; width: 20%">
@@ -373,6 +384,7 @@ document.body.removeChild(b),1<Math.abs(a.height-23)||1<Math.abs(a.width-77)))a=
 <canvas id="secondChart"></canvas>
 <script>
 
+
 parameterHistory = [$("#t_0").val() + $("#t_1").val() + $("#phi_0").val() + $("#phi_1").val()]
 var ctx = document.getElementById('myChart').getContext('2d');
 pointBackgroundColors = ["#ff0000"]
@@ -421,7 +433,7 @@ var myChart = new Chart(ctx, {
 });
 
 
-async function addData(chart, label, data) {
+function addData(chart, label, data) {
     chart.data.labels.push(label);
     chart.data.datasets.forEach((dataset) => {
         dataset.data.push(data);
@@ -429,7 +441,7 @@ async function addData(chart, label, data) {
     chart.update();
 }
 
-async function colorUpdate(myChart){
+function colorUpdate(myChart){
    stateVar = $("#t_0").val() + $("#t_1").val() + $("#phi_0").val() + $("#phi_1").val()
    stateChanged.pop()
     if (stateVar != parameterHistory.at(-1)) {
@@ -442,16 +454,14 @@ async function colorUpdate(myChart){
         pointRadii.push(2)
         stateChanged.push(0)
     }
-    console.log(stateChanged)
     myChart.update();
-    console.log(pointBackgroundColors)
 }
 
 
 var n = 1
 
 function getProbabilities() {
-    $.ajax({
+   /* $.ajax({
         data: {"t_0": $("#t_0").val() , "t_1": $("#t_1").val(), "phi_0": $("#phi_0").val(), "phi_1":$("#phi_1").val() },
         async: true, 
         success: function(response){
@@ -466,18 +476,33 @@ function getProbabilities() {
             $("#probDisplay").removeClass("btn btn-outline-danger")
             $("#probDisplay").addClass("btn btn-outline-info")
             }
-        })
+        }) */ 
+    data = {"t_0": $("#t_0").val() , "t_1": $("#t_1").val(), "phi_0": $("#phi_0").val(), "phi_1":$("#phi_1").val() }
+    p = nGames( data['t_0'], data['t_1'], data['phi_0'], data['phi_1'], 1000)
+    
+    $("#probUpdate").html(p)
+    addData(myChart, n, p);
+    colorUpdate(myChart)
+    n += 1; 
+    $("#sendParameter").html("Simulate")
+    $("#sendParameter").removeClass("btn-danger")
+    $("#sendParameter").addClass("btn-outline-info")
+
+    console.log("trying to remove ")
+    $("#probDisplay").removeClass("btn btn-outline-danger")
+    $("#probDisplay").addClass("btn btn-outline-info")
 }
 
 
 $("#sendParameter").click(function(){
-    $(".circular").click()
+    
     $("#sendParameter").html("Loading ... ")
     $("#sendParameter").removeClass("btn-outline-info")
     $("#probDisplay").removeClass("btn-outline-info")
     $("#sendParameter").addClass("btn btn-danger")
-    $("#probDisplay").addClass("btn btn-outline-danger")
+    $("#probDisplay").addClass("btn btn-outline-danger") 
     
+    circularProgress()
 })
 
 $(document).keyup(function(event) {
@@ -547,7 +572,13 @@ function circularProgress(){
             counter+=1;
             $(".number").html(counter + "%")
         }
-        }, 30);
+        }, 1);
+    
+    $("#sendParameter").html("Simulate")
+    $("#sendParameter").removeClass("btn-danger")
+    $("#sendParameter").addClass("btn-outline-info")
+    $("#probDisplay").removeClass("btn btn-outline-danger")
+    $("#probDisplay").addClass("btn btn-outline-info")
     
 }
 
